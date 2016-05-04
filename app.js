@@ -67,6 +67,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-mongoose.connect('mongodb://localhost/pryces');
+// mongoose.connect('mongodb://localhost/pryces');
+var mongoUri =  process.env.MONGODB_URI || 'mongodb://localhost/pryces';
+mongoose.connect(mongoUri);
 
 module.exports = app;
