@@ -1,3 +1,81 @@
+/*use masonry*/
+.wrapper {
+    width: 95%;
+    margin: 3em auto;
+}
+
+.grid {
+  /*column-count: 4;
+  column-gap: 1em;*/
+  margin: 1.5em 0;
+  padding: 0;
+  -moz-column-gap: 1.5em;
+  -webkit-column-gap: 1.5em;
+  column-gap: 1.5em;
+  font-size: .85em;
+}
+
+.grid-item {
+  /*background-color: #eee;
+  display: inline-block;
+  margin: 0 0 1em;
+  width: 100%;*/
+  display: inline-block;
+    background: #fff;
+    padding: 1em;
+    margin: 0 0 1.5em;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 2px 2px 4px 0 #ccc;
+}
+
+.grid-item img {
+  width: 100% !important;
+ height: auto !important;
+}
+
+@media only screen and (min-width: 400px) {
+    .grid {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .grid {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .grid {
+        -moz-column-count: 4;
+        -webkit-column-count: 4;
+        column-count: 4;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .grid {
+        -moz-column-count: 5;
+        -webkit-column-count: 5;
+        column-count: 5;
+    }
+}
+
+@media only screen and (min-width: 1280px) {
+    .wrapper {
+        width: 1260px;
+    }
+}
+/*use masonry*/
+
+
 body {
   /*padding: 50px;*/
   padding-top: 50px;
@@ -10,6 +88,9 @@ a {
   color: #00B7FF;
 }
 
+/*.page-header h1 {
+  margin-left: 50px
+}*/
 .navbar {
   background-color: #cb2027;
   border-color: #cb2027;
@@ -17,10 +98,11 @@ a {
 }
 
 #navbarBrand {
-  color: whitesmoke
+  color: whitesmoke;
+  font-size: 2em;
 }
 
-#navbar-1 a {
+#navbar-right a {
   color: whitesmoke;
 }
 
@@ -36,10 +118,11 @@ text-align:center;
   color: whitesmoke;
 }
 
-.page-header {
+
+#backbutton {
   margin-left: 50px;
 }
-
+/*
 .row .pryce-container {
   display: flex;
   flex-direction: row;
@@ -64,18 +147,29 @@ text-align:center;
 .pryce-img img {
   max-height: 100%;
   max-width: 100%;
+}*/
+
+#post-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  width: 95%;
+  margin: auto;
+  /*border: dashed blue 1px;*/
+
 }
 
 .pryce-post {
   text-align: center;
-  width: 600px;
-  border: dashed blue 1px;
+  /*border: dashed blue 1px;*/
+  background-color: #ccc;
+
 }
 
 .pryce-post-img {
   height: 400px;
   width: 400px;
-  border: dashed red 1px;
+  /*border: dashed red 1px;*/
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -87,11 +181,74 @@ text-align:center;
 }
 
 .map-box {
-  border: dashed blue 1px;
-  width: 600px
+  /*border: dashed blue 1px;*/
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 #map {
-  width: 560px;
+  width: 400px;
+  margin: 0 auto;
   height: 400px;
-  background-color: #CCC;
+  background-color: #ccc;
 }
+
+.comment-container{
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+/*
+#wrapper {
+	width: 90%;
+	max-width: 1100px;
+	min-width: 800px;
+	margin: 50px auto;
+}
+
+#columns {
+	-webkit-column-count: 3;
+	-webkit-column-gap: 10px;
+	-webkit-column-fill: auto;
+	-moz-column-count: 3;
+	-moz-column-gap: 10px;
+	-moz-column-fill: auto;
+	column-count: 3;
+	column-gap: 15px;
+	column-fill: auto;
+}
+
+.pin {
+	display: inline-block;
+	background: #FEFEFE;
+	border: 2px solid #FAFAFA;
+	box-shadow: 0 1px 2px rgba(34, 25, 25, 0.4);
+	margin: 0 2px 15px;
+	-webkit-column-break-inside: avoid;
+	-moz-column-break-inside: avoid;
+	column-break-inside: avoid;
+	padding: 15px;
+	padding-bottom: 5px;
+	background: -webkit-linear-gradient(45deg, #FFF, #F9F9F9);
+	opacity: 1;
+
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
+}
+
+.pin img {
+	width: 100%;
+  height: 50%;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	margin-bottom: 5px;
+}
+
+.pin p {
+	font: 12px/18px Arial, sans-serif;
+	color: #333;
+	margin: 0;
+}*/

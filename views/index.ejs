@@ -2,12 +2,13 @@
 <html ng-app='Pryce'>
   <head>
       <meta charset="utf-8"/>
-      <title>My Angular App!</title>
+      <title>Pryce</title>
       <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' />
       <link rel="stylesheet" href="/stylesheets/style.css">
       <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js'></script>
       <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
       <script src='/javascripts/angularApp.js'></script>
+      <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script>
 
       <style> .glyphicon-thumbs-up {cursor: pointer}</style>
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,23 +18,25 @@
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" ng-controller='NavCtrl'>
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" id="navbarBrand" href='/#/home'>Pryce</a>
-          <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <a class="navbar-brand" id="navbarBrand" href='/#/home'><strong>PRYCE</strong></a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </button> -->
+          </button>
         </div>
 
-        <div id="navbar-1" class="navbar-collapse collapse">
+        <div id="navbar-right" class="navbar-collapse collapse">
           <ul class='nav navbar-nav navbar-right'>
-              <li ng-show='isLoggedIn()'><a>Signed in as {{ currentUser }}</a></li>
-              <li ng-show='isLoggedIn()'><a href='' ng-click='logOut()'>Log Out</a></li>
-              <li ng-hide='isLoggedIn()'><a href='/#/login'>Log In</a></li>
-              <li ng-hide='isLoggedIn()'><a href='/#/register'>Register</a></li>
+            <li><a href="/">About</a></li>
+            <li><a href="/">Categories</a></li>
+            <li ng-show='isLoggedIn()'><a>Signed in as {{ currentUser }}</a></li>
+            <li ng-show='isLoggedIn()'><a href='' ng-click='logOut()'>Log Out</a></li>
+            <li ng-hide='isLoggedIn()'><a href='/#/login'>Log In</a></li>
+            <li ng-hide='isLoggedIn()'><a href='/#/register'>Register</a></li>
           </ul>
-        </div>
+
       </div>
     </nav>
 
@@ -43,18 +46,15 @@
 
       <div id="footer">
         <div class="container">
-            <div class="row">
-                <ul class="list-inline">
-                    <li><a href="/">About</a>
-                    </li>
-                    <li><a href="/">Terms</a>
-                    </li>
-                    <li><a href="/">Privacy</a>
-                    </li>
-                    <li><a href="/">Contact</a>
-                    </li>
-                </ul>
-            </div>
+          <br>
+          <div class="row">
+            <ul class="list-inline">
+              <li><a href="/">About</a></li>
+              <li><a href="/">Terms</a></li>
+              <li><a href="/">Privacy</a></li>
+              <li><a href="/">Contact</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -62,15 +62,19 @@
       <!-- Home Template -->
     <script type='text/ng-template' id='/home.html'>
 
-          <div class='page-header'>
+          <!-- <div class='page-header'>
               <h1>Pryce</h1>
-          </div>
+          </div> -->
 
-      <div class="container">
-        <div class="row">
-          <div ng-repeat='post in posts | orderBy: "-upvotes"' class='pryce-card  col-sm-6 col-md-4 col-lg-3' >
+      <!-- <div class="container"> -->
+        <!-- <div class="row"> -->
+          <!-- <div ng-repeat='post in posts | orderBy: "-upvotes"' class='pryce-card  col-sm-6 col-md-4 col-lg-3' > -->
+    <div class=wrapper>
+      <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+          <div ng-repeat='post in posts | orderBy: "-upvotes"' class='grid-item'>
             <br>
-            <div class='pryce-img'><img src="{{post.link}}"></div>
+            <!-- <div class='pryce-img'><img src="{{post.link}}"></div> -->
+            <img src="{{post.link}}">
             <br>
             <div>Name: {{post.title}}</div>
             <div>Price: ${{post.price}}</div>
@@ -84,8 +88,8 @@
             <a href='#/posts/{{post._id}}'>{{post.comments.length}} Comments</a>
             <a href="#/posts/{{post._id}}">Show Posts</a>
           </div>
-        </div>
       </div>
+  </div>
 
   <div class="row">
     <div class='col-md-3'></div>
@@ -127,8 +131,9 @@
       <script type='text/ng-template' id='/posts.html'>
         <div class='page-header'>
             <!-- <a ng-show="post.link" href="{{post.link}}">{{post.title}}</a> -->
-          <div><a href back-button>back</a></div>
-          <div class='row'>
+          <div id="backbutton"><a href back-button>Back</a></div>
+
+          <div class='row' id="post-container">
             <div class="pryce-post col-md-6 col-sm-6 col-xs-12">
               <div><h3>{{post.title}}</h3></div>
               <div class='pryce-post-img'><img src="{{post.link}}"></div>
@@ -138,19 +143,20 @@
               <span ng-hide='post.link'>{{post.title}}</span>
             </div>
 
-            <div class='map-box col-md-6'>
+            <div class='map-box col-md-6 col-sm-6 col-md-6'>
               <br>
-              <div id="map"></div>
-              <h4>
-                THE FRIGGING MAP SHOULD SHOW HERE!
-              </h4>
+              <div id="map">
+                <h1>
+                  THE FRIGGING MAP SHOULD SHOW HERE!
+                </h1>
+              </div>
               <br>
               <h4>
                 Use {{post.location}} to find yourself.
               </h4>
             </div>
-
           </div>
+
         </div>
         <!-- <div ng-repeat='comment in post.comments | orderBy: "-upvotes"'>
           <div>
@@ -177,10 +183,11 @@
                 <h4>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can comment
                 </h4>
             </div>
-            <div ng-repeat='comment in post.comments | orderBy: "-upvotes"'>
+            <div class="comment-container">
+            <div ng-repeat='comment in post.comments | orderBy: "-upvotes"' class="comment">
               <div>
                 <br>
-                <span style='font-size: 20px; margin-left: 10px;'>
+                <span style='font-size: 16px; margin-left: 10px;'>
                     {{comment.body}}
                 </span>
               </div>
@@ -190,6 +197,7 @@
                 {{comment.upvotes}}
               </div>
               <br>
+            </div>
             </div>
 
             <form style='margin-top: 30px' ng-submit="addComment()" ng-show='isLoggedIn()'>
