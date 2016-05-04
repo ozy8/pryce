@@ -25,6 +25,7 @@ router.get('/posts', function(req, res, next) {
 
 //creating a post will require authentication
 router.post('/posts', auth, function(req, res, next) {
+  console.log(req.body)
   var post = new Post(req.body);
   post.author = req.payload.username;
 

@@ -6,6 +6,7 @@ var PostSchema = new mongoose.Schema({
     price: String,
     location: String,
     description: String,
+    author: String,
     upvotes: {type: Number, default: 0},
     comments: [{type: mongoose.Schema.Types.ObjectId, ref: "Comment"}]
 });

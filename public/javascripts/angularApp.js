@@ -2,6 +2,7 @@
 
 var app = angular.module('Pryce', ['ui.router']);
 
+
 app.config([
   '$stateProvider',
   '$urlRouterProvider',
@@ -166,7 +167,7 @@ app.controller('MainCtrl', ['$scope', 'posts', 'auth',
       title: $scope.title,
       link: $scope.link,
       price: $scope.price,
-      location: $scope.location,
+      location: localStorage.getItem('location'),
       description: $scope.description
     });
     $scope.title = '';
@@ -231,3 +232,19 @@ app.controller('NavCtrl', ['$scope','auth', function ($scope, auth) {
     $scope.currentUser = auth.currentUser();
     $scope.logOut = auth.logOut;
 }]);
+
+//back controller
+app.directive('backButton', function(){
+    return {
+      restrict: 'A',
+
+      link: function(scope, element, attrs) {
+        element.bind('click', goBack);
+
+        function goBack() {
+          history.back();
+          scope.$apply();
+        }
+      }
+    }
+});

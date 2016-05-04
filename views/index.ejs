@@ -1,110 +1,157 @@
 <!DOCTYPE html>
 <html ng-app='Pryce'>
-    <head>
-        <meta charset="utf-8"/>
-        <title>My Angular App!</title>
-        <link rel='stylesheet'href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' />
-        <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js'></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-        <script src='/javascripts/angularApp.js'></script>
-        <style> .glyphicon-thumbs-up {cursor: pointer}</style>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <nav class="navbar navbar-default navbar-fixed-top" ng-controller='NavCtrl'>
-            <ul class='nav navbar-nav'>
-                <li><a href='/#/home'>Pryce Home</a></li>
-                <li ng-show='isLoggedIn()'><a>Signed in as {{ currentUser }}</a></li>
-                <li ng-show='isLoggedIn()'><a href='' ng-click='logOut()'>Log Out</a></li>
-                <li ng-hide='isLoggedIn()'><a href='/#/login'>Log In</a></li>
-                <li ng-hide='isLoggedIn()'><a href='/#/register'>Register</a></li>
-            </ul>
-        </nav>
-        <div class='row'>
-            <div class='col-md-6 col-md-offset-3'>
-                <br>
-                <ui-view></ui-view>
-              </div>
+  <head>
+      <meta charset="utf-8"/>
+      <title>My Angular App!</title>
+      <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' />
+      <link rel="stylesheet" href="/stylesheets/style.css">
+      <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js'></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+      <script src='/javascripts/angularApp.js'></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+
+      <style> .glyphicon-thumbs-up {cursor: pointer}</style>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+      <nav class="navbar navbar-default navbar-fixed-top" ng-controller='NavCtrl'>
+          <ul class='nav navbar-nav'>
+              <li><a href='/#/home'>Pryce Home</a></li>
+              <li ng-show='isLoggedIn()'><a>Signed in as {{ currentUser }}</a></li>
+              <li ng-show='isLoggedIn()'><a href='' ng-click='logOut()'>Log Out</a></li>
+              <li ng-hide='isLoggedIn()'><a href='/#/login'>Log In</a></li>
+              <li ng-hide='isLoggedIn()'><a href='/#/register'>Register</a></li>
+          </ul>
+      </nav>
+
+          <br>
+          <ui-view></ui-view>
+      <!-- Home Template -->
+    <script type='text/ng-template' id='/home.html'>
+
+          <div class='page-header'>
+
+              <h1>Pryce</h1>
           </div>
 
-        <!-- Home Template -->
-        <script type='text/ng-template' id='/home.html'>
-            <div class='page-header'>
+      <div class="container">
+        <div class="row">
+          <div ng-repeat='post in posts | orderBy: "-upvotes"' class='pryce-card  col-md-4 col-lg-3' >
 
-                <h1>Pryce</h1>
+              <div class='pryce-img'><img src="{{post.link}}"></div>
+                <div>Name: {{post.title}}</div>
+                <div>Price: ${{post.price}}</div>
+                <div>Location: {{post.location}}</div>
+                <!-- <div>{{post.description}}</div> -->
+                <div>posted by <a>{{post.author}}</a></div>
+                <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(post)'></span>
+                {{post.upvotes}}
+                <!-- <span ng-hide='post.link'>{{post.title}}</span>
+                <span ng-show='post.author'> posted by <a>{{post.author}}</a> </span> -->
+                <a href='#/posts/{{post._id}}'>{{post.comments.length}} Comments</a>
+                 <a href="#/posts/{{post._id}}">Show Posts</a>
+            </div>
+        </div>
+      </div>
+
+  <div class="row">
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+      <!-- bar which disappears if the user in logged in -->
+      <div ng-hide='isLoggedIn()'>
+          <h3>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can add a post
+          </h3>
+      </div>
+
+      <form style='margin-top: 30px' ng-submit='addPost()' ng-show='isLoggedIn()'>
+        <h3>Add a new post</h3>
+        <div class='form-group'>
+            <input class='form-control' type='text' placeholder='Name of Item' ng-model='title'/>
+        </div>
+        <div class='form-group'>
+            <input class='form-control' type='text' placeholder="Photo Link" ng-model='link'/>
+        </div>
+        <div class='form-group'>
+            <input class='form-control' type='text' placeholder="Price" ng-model='price'/>
+        </div>
+        <div class='form-group'>
+            <!-- <input id="curLocation" class='form-control' type='text' placeholder="Location" ng-model='location'/> -->
+            <div onclick="getLocation()">Get Location</div>
+        </div>
+        <div class='form-group'>
+            <input class='form-control' type='text' placeholder="Description" ng-model='description'/>
+        </div>
+        <button type='submit' class='btn btn-primary'>Post</button>
+      </form>
+    </div>
+  </div>
+  </div>
+
+    </script>
+
+      <!-- Post Template -->
+      <script type='text/ng-template' id='/posts.html'>
+        <div class='page-header'>
+            <!-- <a ng-show="post.link" href="{{post.link}}">{{post.title}}</a> -->
+          <div><a href back-button>back</a></div>
+          <div class='row'>
+            <div class="pryce-post col-md-6">
+              <div><h3>{{post.title}}</h3></div>
+              <div class='pryce-post-img'><img src="{{post.link}}"></div>
+              <div>Price: $ {{post.price}}</div>
+              <div>Location: {{post.location}}</div>
+              <div>Description: {{post.description}}</div>
+              <span ng-hide='post.link'>{{post.title}}</span>
             </div>
 
-        <div class="container">
-          <div class="row">
-            <div class= "col-md-4">
-              <div ng-repeat='post in posts | orderBy: "-upvotes"'>
-          
-                <div><img src="{{post.link}}"></div>
-                  <div>{{post.title}}</div>
-                  <div>{{post.price}}</div>
-                  <div>{{post.location}}</div>
-                  <div>{{post.description}}</div>
-                  <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(post)'></span>
-                  {{post.upvotes}}
-
-                      <span ng-hide='post.link'>{{post.title}}</span>
-
-                  <span ng-show='post.author'> posted by <a>{{post.author}}</a> |
-                  </span>
-                  <a href='#/posts/{{post._id}}'>{{post.comments.length}} Comments</a>
-              </div>
+            <div class='map-box col-md-6'>
+              <div id="map-stuff"></div>
+              <!-- google maps -->
             </div>
+
           </div>
         </div>
-
+        <!-- <div ng-repeat='comment in post.comments | orderBy: "-upvotes"'>
+          <div>
+            <span style='font-size: 20px; margin-left: 10px;'>
+                {{comment.body}}
+            </span>
+          </div>
+          <div>
+            - commented by {{comment.author}} |
+            <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(comment)'></span>
+            {{comment.upvotes}}
+          </div>
+          <br>
+        </div> -->
+        <!-- <div ng-hide='isLoggedIn()'>
+            <h3>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can comment
+            </h3>
+        </div> -->
+        <!-- comment form -->
+        <div class="row">
+          <div class='col-md-3'></div>
+          <div class='col-md-6'>
             <div ng-hide='isLoggedIn()'>
-                <h3>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can add a post
-                </h3>
-            </div>
-
-                  <form style='margin-top: 30px' ng-submit='addPost()' ng-show='isLoggedIn()'>
-                      <h3>Add a new post</h3>
-                      <div class='form-group'>
-                          <input class='form-control' type='text' placeholder='Name of Item' ng-model='title'/>
-                      </div>
-                      <div class='form-group'>
-                          <input class='form-control' type='text' placeholder="Photo Link" ng-model='link'/>
-                      </div>
-                      <div class='form-group'>
-                          <input class='form-control' type='text' placeholder="Price" ng-model='price'/>
-                      </div>
-                      <div class='form-group'>
-                          <input class='form-control' type='text' placeholder="Location" ng-model='location'/>
-                      </div>
-                      <div class='form-group'>
-                          <input class='form-control' type='text' placeholder="Description" ng-model='description'/>
-                      </div>
-                      <button type='submit' class='btn btn-primary'>Post</button>
-                  </form>
-        </script>
-
-          <!-- Post Template -->
-        <script type='text/ng-template' id='/posts.html'>
-            <div class='page-header'>
-                <h3>
-                    <a ng-show="post.link" href="{{post.link}}">
-                        {{post.title}}
-                    </a>
-                    <span ng-hide='post.link'>{{post.title}}</span>
-                </h3>
+                <h4>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can comment
+                </h4>
             </div>
             <div ng-repeat='comment in post.comments | orderBy: "-upvotes"'>
-                <span class='glyphicon glyphicon-thumbs-up'
-                      ng-click='incrementUpvotes(comment)'></span>
-                {{comment.upvotes}} - by {{comment.author}}
+              <div>
+                <br>
                 <span style='font-size: 20px; margin-left: 10px;'>
                     {{comment.body}}
                 </span>
+              </div>
+              <div>
+                - commented by {{comment.author}} |
+                <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(comment)'></span>
+                {{comment.upvotes}}
+              </div>
+              <br>
             </div>
-            <div ng-hide='isLoggedIn()'>
-                <h3>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can comment
-                </h3>
-            </div>
+
             <form style='margin-top: 30px' ng-submit="addComment()" ng-show='isLoggedIn()'>
                 <h3>Add a new comment</h3>
                 <div class='form-group'>
@@ -112,56 +159,105 @@
                 </div>
                 <button type='submit' class='btn btn-primary'>Post</button>
             </form>
-        </script>
+          </div>
+          <div class='col-md-3'></div>
+        </div>
+      </script>
 
-        <!-- Register form -->
-        <script type='text/ng-template' id="/register.html">
-            <div class='page-header'>
-                <h1>Pryce</h1>
+    <!-- Register form -->
+  <script type='text/ng-template' id="/register.html">
+    <div class='row'>
+      <div class='col-md-3'></div>
+      <div class='col-md-6'>
+          <div class='page-header'>
+              <h1>Pryce</h1>
+          </div>
+
+          <div ng-show='error' class='alert alert-danger row'>
+              <span>{{ error.message }}</span>
+          </div>
+
+          <form ng-submit='register()' style='margin-top: 30px;'>
+            <h3>Register</h3>
+
+            <div class='form-group'>
+                <input  type='text' class='form-control'
+                        placeholder='Username' ng-model='user.username' />
             </div>
-
-            <div ng-show='error' class='alert alert-danger row'>
-                <span>{{ error.message }}</span>
+            <div class='form-group'>
+                <input  type='password' class='form-control'
+                        placeholder='Password' ng-model='user.password' />
             </div>
+            <button type='submit' class='btn btn-primary'>Register</button>
+          </form>
+      </div>
+      <div class='col-md-3'></div>
+    </div>
+  </script>
 
-            <form ng-submit='register()' style='margin-top: 30px;'>
-                <h3>Register</h3>
+    <!-- Log In Form -->
+<script type='text/ng-template' id="/login.html">
+  <div class='row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <div class='page-header'>
+            <h1>Pryce</h1>
+        </div>
 
-                <div class='form-group'>
-                    <input  type='text' class='form-control'
-                            placeholder='Username' ng-model='user.username' />
-                </div>
-                <div class='form-group'>
-                    <input  type='password' class='form-control'
-                            placeholder='Password' ng-model='user.password' />
-                </div>
-                <button type='submit' class='btn btn-primary'>Register</button>
-            </form>
-        </script>
+        <div ng-show='error' class='alert alert-danger row'>
+            <span>{{ error.message }}</span>
+        </div>
 
-        <!-- Log In Form -->
-        <script type='text/ng-template' id="/login.html">
-            <div class='page-header'>
-                <h1>Pryce</h1>
+        <form ng-submit='logIn()' style='margin-top: 30px;'>
+            <h3>Log In</h3>
+
+            <div class='form-group'>
+                <input  type='text' class='form-control'
+                        placeholder='Username' ng-model='user.username' />
             </div>
-
-            <div ng-show='error' class='alert alert-danger row'>
-                <span>{{ error.message }}</span>
+            <div class='form-group'>
+                <input  type='password' class='form-control'
+                        placeholder='Password' ng-model='user.password' />
             </div>
+            <button type='submit' class='btn btn-primary'>Login</button>
+        </form>
+    </div>
+    <div class='col-md-3'></div>
+  </div>
+</script>
 
-            <form ng-submit='logIn()' style='margin-top: 30px;'>
-                <h3>Log In</h3>
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+}
+function showPosition(position) {
 
-                <div class='form-group'>
-                    <input  type='text' class='form-control'
-                            placeholder='Username' ng-model='user.username' />
-                </div>
-                <div class='form-group'>
-                    <input  type='password' class='form-control'
-                            placeholder='Password' ng-model='user.password' />
-                </div>
-                <button type='submit' class='btn btn-primary'>Login</button>
-            </form>
-        </script>
-    </body>
+    var location = (position.coords.latitude).toString() + ", " +  (position.coords.longitude).toString()
+    // var curLocation = angular.element(document.querySelector('#curLocation'))
+    //   .val(location)
+    //   document.getElementById('curLocation').className = "form-control ng-valid ng-dirty ng-touched ng-valid-parse"
+    localStorage.setItem('location', location)
+    // curLocation.value = position.coords.latitude
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeKlhE6XDty9NCjizPTgnYFOxCP4cjQ-4"
+  async defer>
+</script>
+
+<script>
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map-stuff"), {
+      center: {lat: -34.397, lng: 150.644}
+    });
+  }
+</script>
+<!--
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeKlhE6XDty9NCjizPTgnYFOxCP4cjQ-4"
+  async defer>
+</script> -->
+
+  </body>
 </html>
