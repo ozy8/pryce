@@ -20,6 +20,7 @@ var users = require('./routes/users');
 
 var app = express();
 
+app.set('port', process.env.PORT || 3000);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -72,3 +73,5 @@ var mongoUri =  process.env.MONGODB_URI || 'mongodb://localhost/pryces';
 mongoose.connect(mongoUri);
 
 module.exports = app;
+
+app.listen(process.env.PORT || 3000 )
