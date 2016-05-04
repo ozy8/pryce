@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 
 var mongoose = require('mongoose');
+// mongoose.connect('mongodb://localhost/pryces');
+var mongoUri =  process.env.MONGODB_URI || 'mongodb://localhost/pryces';
+mongoose.connect(mongoUri);
 //linking mongoose up with the pryce
 require('./models/Posts');
 require('./models/Comments');
@@ -20,7 +23,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-app.set('port', process.env.PORT || 3000);
+// app.set('port', process.env.PORT || 3000);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -68,10 +71,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// mongoose.connect('mongodb://localhost/pryces');
-var mongoUri =  process.env.MONGODB_URI || 'mongodb://localhost/pryces';
-mongoose.connect(mongoUri);
-
 module.exports = app;
 
-app.listen(process.env.PORT || 3000 )
+// app.listen(process.env.PORT || 3000 )
