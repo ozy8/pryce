@@ -8,50 +8,82 @@
       <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js'></script>
       <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
       <script src='/javascripts/angularApp.js'></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-
 
       <style> .glyphicon-thumbs-up {cursor: pointer}</style>
       <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-      <nav class="navbar navbar-default navbar-fixed-top" ng-controller='NavCtrl'>
-          <ul class='nav navbar-nav'>
-              <li><a href='/#/home'>Pryce Home</a></li>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" ng-controller='NavCtrl'>
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" id="navbarBrand" href='/#/home'>Pryce</a>
+          <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button> -->
+        </div>
+
+        <div id="navbar-1" class="navbar-collapse collapse">
+          <ul class='nav navbar-nav navbar-right'>
               <li ng-show='isLoggedIn()'><a>Signed in as {{ currentUser }}</a></li>
               <li ng-show='isLoggedIn()'><a href='' ng-click='logOut()'>Log Out</a></li>
               <li ng-hide='isLoggedIn()'><a href='/#/login'>Log In</a></li>
               <li ng-hide='isLoggedIn()'><a href='/#/register'>Register</a></li>
           </ul>
-      </nav>
+        </div>
+      </div>
+    </nav>
 
           <br>
           <ui-view></ui-view>
+          <br>
+
+      <div id="footer">
+        <div class="container">
+            <div class="row">
+                <ul class="list-inline">
+                    <li><a href="/">About</a>
+                    </li>
+                    <li><a href="/">Terms</a>
+                    </li>
+                    <li><a href="/">Privacy</a>
+                    </li>
+                    <li><a href="/">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+
+          <!-- Start of SCRIPTS SHITSSSS  -->
       <!-- Home Template -->
     <script type='text/ng-template' id='/home.html'>
 
           <div class='page-header'>
-
               <h1>Pryce</h1>
           </div>
 
       <div class="container">
         <div class="row">
-          <div ng-repeat='post in posts | orderBy: "-upvotes"' class='pryce-card  col-md-4 col-lg-3' >
-
-              <div class='pryce-img'><img src="{{post.link}}"></div>
-                <div>Name: {{post.title}}</div>
-                <div>Price: ${{post.price}}</div>
-                <div>Location: {{post.location}}</div>
-                <!-- <div>{{post.description}}</div> -->
-                <div>posted by <a>{{post.author}}</a></div>
-                <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(post)'></span>
-                {{post.upvotes}}
-                <!-- <span ng-hide='post.link'>{{post.title}}</span>
-                <span ng-show='post.author'> posted by <a>{{post.author}}</a> </span> -->
-                <a href='#/posts/{{post._id}}'>{{post.comments.length}} Comments</a>
-                 <a href="#/posts/{{post._id}}">Show Posts</a>
-            </div>
+          <div ng-repeat='post in posts | orderBy: "-upvotes"' class='pryce-card  col-sm-6 col-md-4 col-lg-3' >
+            <br>
+            <div class='pryce-img'><img src="{{post.link}}"></div>
+            <br>
+            <div>Name: {{post.title}}</div>
+            <div>Price: ${{post.price}}</div>
+            <div>Location: {{post.location}}</div>
+            <!-- <div>{{post.description}}</div> -->
+            <div>posted by <a>{{post.author}}</a></div>
+            <span class='glyphicon glyphicon-thumbs-up' ng-click='incrementUpvotes(post)'></span>
+            {{post.upvotes}}
+            <!-- <span ng-hide='post.link'>{{post.title}}</span>
+            <span ng-show='post.author'> posted by <a>{{post.author}}</a> </span> -->
+            <a href='#/posts/{{post._id}}'>{{post.comments.length}} Comments</a>
+            <a href="#/posts/{{post._id}}">Show Posts</a>
+          </div>
         </div>
       </div>
 
@@ -60,8 +92,8 @@
     <div class='col-md-6'>
       <!-- bar which disappears if the user in logged in -->
       <div ng-hide='isLoggedIn()'>
-          <h3>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can add a post
-          </h3>
+          <h4>You need to <a href='/#/login'>Log In</a> or <a href='/#/register'>Register</a> before you can add a post
+          </h4>
       </div>
 
       <form style='margin-top: 30px' ng-submit='addPost()' ng-show='isLoggedIn()'>
@@ -85,6 +117,7 @@
         <button type='submit' class='btn btn-primary'>Post</button>
       </form>
     </div>
+    <div class='col-md-3'></div>
   </div>
   </div>
 
@@ -96,7 +129,7 @@
             <!-- <a ng-show="post.link" href="{{post.link}}">{{post.title}}</a> -->
           <div><a href back-button>back</a></div>
           <div class='row'>
-            <div class="pryce-post col-md-6">
+            <div class="pryce-post col-md-6 col-sm-6 col-xs-12">
               <div><h3>{{post.title}}</h3></div>
               <div class='pryce-post-img'><img src="{{post.link}}"></div>
               <div>Price: $ {{post.price}}</div>
@@ -106,8 +139,15 @@
             </div>
 
             <div class='map-box col-md-6'>
-              <div id="map-stuff"></div>
-              <!-- google maps -->
+              <br>
+              <div id="map"></div>
+              <h4>
+                THE FRIGGING MAP SHOULD SHOW HERE!
+              </h4>
+              <br>
+              <h4>
+                Use {{post.location}} to find yourself.
+              </h4>
             </div>
 
           </div>
@@ -242,22 +282,31 @@ function showPosition(position) {
     // curLocation.value = position.coords.latitude
 }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeKlhE6XDty9NCjizPTgnYFOxCP4cjQ-4"
-  async defer>
-</script>
 
-<script>
-  var map;
-  function initMap() {
-    map = new google.maps.Map(document.getElementById("map-stuff"), {
-      center: {lat: -34.397, lng: 150.644}
-    });
-  }
+
+
+<!-- <script>
+  function initMap(){
+    google.maps.event.addDomListener(window, "load", initMap);
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var myOptions = {
+        zoom: 8,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map"),myOptions);
+};
+
 </script>
-<!--
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeKlhE6XDty9NCjizPTgnYFOxCP4cjQ-4"
   async defer>
 </script> -->
 
-  </body>
+<!--
+     <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"
+         async defer></script> -->
+
+</body>
+
+
 </html>
