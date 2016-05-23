@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 
 var mongoose = require('mongoose');
 // mongoose.connect('mongodb://localhost/pryces');
-var mongoUri =  process.env.MONGODB_URI || 'mongodb://localhost/pryces';
+var mongoUri =  'mongodb://ozy:12345678@ds011963.mlab.com:11963/heroku_z44fq4l3' || 'mongodb://localhost/pryces';
 mongoose.connect(mongoUri);
 //linking mongoose up with the pryce
 require('./models/Posts');
