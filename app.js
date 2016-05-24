@@ -24,7 +24,7 @@ var users = require('./routes/users');
 
 var app = express();
 //added by me
-var port = process.env.PORT || 8080;
+// var port = process.env.PORT || 8080;
 var debug = require('debug')('pryce:server');
 var http = require('http');
 

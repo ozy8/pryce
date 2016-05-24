@@ -48,6 +48,10 @@ app.config([
             $state.go('home');
           }
         }]
+      })
+      .state('about', {
+        url: '/about',
+        templateUrl: '/about.html'
       });
 
     $urlRouterProvider.otherwise('home');
