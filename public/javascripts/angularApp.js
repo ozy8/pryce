@@ -52,6 +52,14 @@ app.config([
       .state('about', {
         url: '/about',
         templateUrl: '/about.html'
+      })
+      .state('categories', {
+        url: '/categories',
+        templateUrl: '/categories.html'
+      })
+      .state('contact', {
+        url: '/contact',
+        templateUrl: '/contact.html'
       });
 
     $urlRouterProvider.otherwise('home');
